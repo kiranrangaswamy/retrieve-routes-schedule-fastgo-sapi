@@ -16,6 +16,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 	<http:request-config name="HTTP_Request_configuration_for_fastGo" doc:name="HTTP Request configuration" doc:id="05be0a1f-be76-404e-a595-3e3ebf268c2a" >
 		<http:request-connection host="${http.requester.host}" port="${http.requester.port}" />
 	</http:request-config>
+	<configuration doc:name="Configuration" doc:id="dd25c675-15ae-4653-a2a7-f062b372b792" defaultErrorHandler-ref="globalErrorHandlerError_Handler" />
 	
 	
 </mule>
