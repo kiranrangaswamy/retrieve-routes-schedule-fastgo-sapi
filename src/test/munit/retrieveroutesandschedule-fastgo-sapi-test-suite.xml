@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="retrieveroutesandschedule-fastgo-sapi-test-suite.xml" />
+	<munit:test name="retrieveroutesandschedule-fastgo-sapi-test-suite-retrieveroutesandschedule-fastgo-sapi-mainTest" doc:id="cd09347b-dd08-47c7-84ba-d6eef569b18a" description="Test" expectedErrorType="APIKIT:BAD_REQUEST">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="65df2b04-b443-44a7-a6fa-3eddc57729da" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="retrieveroutesandschedule-fastgo-sapi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:BAD_REQUEST" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to retrieveroutesandschedule-fastgo-sapi-main" doc:id="d428fc6d-676b-40a7-94d0-f5646116748c" name="retrieveroutesandschedule-fastgo-sapi-main"/>
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="187c35d7-7b00-4647-bfd1-1bbd1d3bdac8" actual="#[vars.httpStatus]" expected="400"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="retrieveroutesandschedule-fastgo-sapi-test-suite-retrieveroutesandschedule-fastgo-sapi-consoleTest" doc:id="b3ba7aec-76be-4226-a027-26568d704d36" description="Test" expectedErrorType="APIKIT:NOT_FOUND">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="4566737a-3dda-45b9-b015-ca69a4aaa3b5" processor="apikit:console">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="retrieveroutesandschedule-fastgo-sapi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:NOT_FOUND" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to retrieveroutesandschedule-fastgo-sapi-console" doc:id="fcf2e44b-29ec-4c22-8afa-c95cf8795c62" name="retrieveroutesandschedule-fastgo-sapi-console"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="cc4bd626-5e5a-463d-b0b0-36a5cf1c2c5f" actual="#[vars.httpStatus]" expected="404"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="retrieveroutesandschedule-fastgo-sapi-test-suite-get:\(transportType)\(transportCompany)\routes:retrieveroutesandschedule-fastgo-sapi-configTest" doc:id="bccb3ac0-38de-418e-b007-114c8d7dd93e" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="1fd1a7cc-4a60-4de5-a64f-46e74950fc8e" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="GET" attributeName="method" />
+					<munit-tools:with-attribute whereValue="Request" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="64e6ea2f-f76c-4678-a310-5f7028d07d1b" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value='#[output application/java&#10; ---&#10; [{&#10;    "departureLocationCode": "KLG-MY",&#10;    "arrivalLocationCode": "BEN-SG"&#10; }]]' />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="a59b05d1-9327-4dc7-8d86-d258187eb144" >
+				<munit:attributes value='#[{&#10;	"headers":{"transactionId": "ldhic-oiwjdd-lsl"},&#10;	"uriParams":{"transportCompany": "fastGo",&#10;				"transportType": "bus",&#10;				"serviceType": "routes"}&#10;}]' />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to get:\(transportType)\(transportCompany)\routes:retrieveroutesandschedule-fastgo-sapi-config" doc:id="9804a25c-2176-4a6d-871b-10b93cb194c6" name="get:\(transportType)\(transportCompany)\routes:retrieveroutesandschedule-fastgo-sapi-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert expression" doc:id="e9f4934f-39e5-4683-abfb-61bdf2820a5b" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="retrieveroutesandschedule-fastgo-sapi-test-suite-get:\(transportType)\(transportCompany)\schedules:retrieveroutesandschedule-fastgo-sapi-configTest" doc:id="10612531-a02f-40bb-89d6-220216469001" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="789a7632-a955-4397-8040-4fd46bcbde6f" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="GET" attributeName="method" />
+					<munit-tools:with-attribute whereValue="Request" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="420ac163-e817-401d-9c91-8be7a87fd05f" attributeName="doc:id" />
+					<munit-tools:with-attribute whereValue="HTTP_Request_configuration_for_fastGo" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value='#[output application/java&#10;---&#10; [{&#10;    "departureDateTime": "2021-03-22T12:12:12.090Z",&#10;    "fromLocation": "KLG-MY",&#10;    "toLocation": "BEN-SG",&#10;    "availableSeats": "40"&#10;  }]]' />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="26eb6d8c-eeee-4ed5-b9e0-457546fcb077" >
+				<munit:attributes value='#[{&#10;	"headers":{"transactionId": "ldhic-oiwjdd-lsl"},&#10;	"uriParams":{"transportCompany": "fastGo",&#10;				"transportType": "bus",&#10;				"serviceType": "schedules"}&#10;}]' />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to get:\(transportType)\(transportCompany)\schedules:retrieveroutesandschedule-fastgo-sapi-config" doc:id="61ae8203-ae91-4266-ae18-e1e2c1cd55d8" name="get:\(transportType)\(transportCompany)\schedules:retrieveroutesandschedule-fastgo-sapi-config"/>
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert doc:name="Assert expression" doc:id="0d951eff-0f3f-4ca2-bf38-6de99d481fa1" />
+		</munit:validation>
+	</munit:test>
+
+
+</mule>
