@@ -13,7 +13,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
         <http:listener-connection host="${http.listener.host}" port="${http.listener.port}" />
     </http:listener-config>
 	<configuration-properties doc:name="Configuration properties" doc:id="0ce30482-b674-4595-a0b3-9620b851b769" file="config/${MULE_ENV}.yaml" />
-	<http:request-config name="HTTP_Request_configuration_for_fastGo" doc:name="HTTP Request configuration" doc:id="05be0a1f-be76-404e-a595-3e3ebf268c2a" >
+	<http:request-config name="HTTP_Request_configuration_for_fastGo" doc:name="HTTP Request configuration" doc:id="05be0a1f-be76-404e-a595-3e3ebf268c2a" responseTimeout="900000">
 		<http:request-connection host="${http.requester.host}" port="${http.requester.port}" />
 	</http:request-config>
 	<configuration doc:name="Configuration" doc:id="dd25c675-15ae-4653-a2a7-f062b372b792" defaultErrorHandler-ref="globalErrorHandlerError_Handler" />
